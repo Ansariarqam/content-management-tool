@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple CMS</title>
+</head>
+<body>
+    <h1>Welcome to the Content Management System</h1>
+    <h2>Existing Content:</h2>
+    <ul>
+        {% for item in content_items %}
+            <li><strong>{{ item.title }}</strong>: {{ item.content }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Add New Content:</h2>
+    <form method="POST" action="/add">
+        <label for="title">Title:</label>
+        <input type="text" name="title" required><br>
+        <label for="content">Content:</label><br>
+        <textarea name="content" rows="4" cols="50" required></textarea><br>
+        <input type="submit" value="Add Content">
+    </form>
+</body>
+</html>
+
+
+
+Python
+# Import necessary libraries
+import os
+import shutil
+
+# Define the content directory
+content_dir = "content/"
+
+# Function to list available content
+def list_content():
+    content_list = os.listdir(content_dir)
+    for item in content_list:
+        print(item)
+
+# Function to create new content
+def create_content(title, body):
+    content_path = os.path.join(content_dir, title + ".txt")
+    with open(content_path, "w") as file:
+        file.write(body)
+
+# Function to read content
+def read_content(title):
+    content_path = os.path.join(content_dir, title + ".txt")
+    if os.path.exists(content_path):
+        with open(content_path, "r") as file:
+            return file.read()
+    else:
+        return "Content not found."
+
+# Function to update content
+def update_content(title, new_body):
+    content_path = os.path.join(content_dir, title + ".txt")
+    if os.path.exists(content_path):
+        with open(content_path, "w") as file:
+            file.write(new_body)
+    else:
+        print("Content not found.")
+
+# Function to delete content
+def delete_content(title):
+    content_path = os.path.join(content_dir, title + ".txt")
+    if os.path.exists(content_path):
+        os.remove(content_path)
+    else:
+        print("Content not found.")
+
+# Main program loop
+while True:
+    print("\nContent Management Tool")
+    print("1. List Content")
+    print("2. Create Content")
+    print("3. Read Content")
+    print("4. Update Content")
+    print("5. Delete Content")
+    print("6. Exit")
+
+    choice = input("Select an option: ")
+
+    if choice == "1":
+        list_content()
+    elif choice == "2":
+        title = input("Enter the title: ")
+        body = input("Enter the content: ")
+        create_content(title, body)
+        print("Content created.")
+    elif choice == "3":
+        title = input("Enter the title: ")
+        content = read_content(title)
+        print("Content:\n", content)
+    elif choice == "4":
+        title = input("Enter the title: ")
+        new
